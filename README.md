@@ -1,0 +1,276 @@
+# 💰 Personal Finance Tracker
+
+A full-stack personal finance dashboard built with React, Express.js, and Firebase. Track your income and expenses with beautiful charts and real-time data synchronization.
+
+## 🏗️ Architecture
+
+This is a **monorepo** project with two main folders:
+
+- **`/client`** - React frontend (Vite + Tailwind CSS)
+- **`/server`** - Express.js backend (Node.js + Firebase Admin)
+
+## ✨ Features
+
+- 🔐 **User Authentication** - Email/Password authentication with Firebase
+- 📊 **Visual Dashboard** - Beautiful pie charts showing expense breakdown
+- 💵 **Transaction Management** - Add, view, and delete income/expense transactions
+- 🎨 **Modern UI** - Clean, responsive design with Tailwind CSS
+- 🔥 **Real-time Database** - Cloud Firestore for data persistence
+- 🔒 **Secure API** - Token-based authentication with Firebase Admin SDK
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- A Firebase project (see setup below)
+
+### Firebase Setup
+
+Before running the application, you need to set up Firebase:
+
+#### 1. Create a Firebase Project
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click "Add project" and follow the setup wizard
+3. Enable **Firestore Database**:
+   - Go to "Firestore Database" in the left menu
+   - Click "Create database"
+   - Start in **production mode** or **test mode**
+   - Choose a location close to you
+4. Enable **Authentication**:
+   - Go to "Authentication" in the left menu
+   - Click "Get started"
+   - Enable "Email/Password" sign-in method
+
+#### 2. Get Firebase Configuration for Frontend
+
+1. In Firebase Console, go to **Project Settings** (gear icon)
+2. Scroll down to "Your apps" section
+3. Click the **Web** icon (`</>`) to add a web app
+4. Register your app with a nickname (e.g., "Finance Tracker Web")
+5. Copy the `firebaseConfig` object
+
+**Paste the configuration in:**
+```
+client/src/config/firebaseConfig.js
+```
+
+Replace the placeholder values:
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
+
+#### 3. Get Firebase Admin SDK for Backend
+
+1. In Firebase Console, go to **Project Settings** → **Service Accounts**
+2. Click "Generate new private key"
+3. Download the JSON file
+4. **Rename it to `serviceAccountKey.json`**
+5. **Move it to:** `server/src/config/serviceAccountKey.json`
+
+⚠️ **IMPORTANT:** Never commit this file to version control! It's already in `.gitignore`.
+
+#### 4. Set Up Environment Variables
+
+1. Copy the example file:
+   ```bash
+   cd server
+   cp .env.example .env
+   ```
+
+2. The `.env` file should contain:
+   ```
+   PORT=5000
+   FIREBASE_SERVICE_ACCOUNT_PATH=./src/config/serviceAccountKey.json
+   ```
+
+### Installation
+
+#### Backend Setup
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+The server will start on `http://localhost:5000`
+
+#### Frontend Setup
+
+Open a new terminal:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+The client will start on `http://localhost:3000`
+
+## 📁 Project Structure
+
+```
+Expense Tracker/
+├── client/                          # Frontend React App
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── firebaseConfig.js    # 🔥 Firebase Web SDK config
+│   │   ├── pages/
+│   │   │   ├── Login.jsx            # Login/Signup page
+│   │   │   ├── Dashboard.jsx        # Main dashboard
+│   │   │   └── AddTransaction.jsx   # Add transaction form
+│   │   ├── services/
+│   │   │   └── api.js               # API service layer
+│   │   ├── App.jsx                  # Main app with routing
+│   │   ├── main.jsx                 # Entry point
+│   │   └── index.css                # Global styles
+│   ├── package.json
+│   └── tailwind.config.js
+│
+├── server/                          # Backend Express API
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── firebaseConfig.js    # Firebase Admin SDK config
+│   │   │   └── serviceAccountKey.json  # 🔥 Service account (DO NOT COMMIT)
+│   │   ├── middleware/
+│   │   │   └── authMiddleware.js    # Token verification
+│   │   ├── routes/
+│   │   │   └── transactions.js      # Transaction endpoints
+│   │   └── app.js                   # Express server
+│   ├── package.json
+│   └── .env                         # Environment variables
+│
+└── README.md
+```
+
+## 🔌 API Endpoints
+
+All endpoints require authentication via `Authorization: Bearer <token>` header.
+
+### Transactions
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/transactions` | Get all user transactions |
+| POST | `/api/transactions` | Add new transaction |
+| DELETE | `/api/transactions/:id` | Delete a transaction |
+
+### Request Examples
+
+**Add Transaction:**
+```json
+POST /api/transactions
+{
+  "amount": 50.00,
+  "description": "Grocery shopping",
+  "type": "expense",
+  "category": "Food"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "transaction": {
+    "id": "abc123",
+    "amount": 50.00,
+    "description": "Grocery shopping",
+    "type": "expense",
+    "category": "Food",
+    "userId": "user123",
+    "createdAt": "2024-01-01T12:00:00.000Z"
+  }
+}
+```
+
+## 🎨 Tech Stack
+
+### Frontend
+- **React 19** - UI library
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **React Router DOM** - Routing
+- **Recharts** - Charts and visualizations
+- **Axios** - HTTP client
+- **Firebase Web SDK** - Authentication
+
+### Backend
+- **Node.js** - Runtime
+- **Express.js** - Web framework
+- **Firebase Admin SDK** - Database and auth
+- **CORS** - Cross-origin resource sharing
+- **dotenv** - Environment variables
+
+## 🔒 Security Features
+
+- ✅ Firebase Authentication with secure token verification
+- ✅ Protected API routes with middleware
+- ✅ User-specific data isolation (users can only access their own transactions)
+- ✅ Environment variables for sensitive data
+- ✅ Service account key excluded from version control
+
+## 📱 Screenshots
+
+### Login Page
+Clean authentication interface with email/password sign-in.
+
+### Dashboard
+- Total balance, income, and expense cards
+- Interactive pie chart showing expense breakdown by category
+- Recent transactions list with delete functionality
+
+### Add Transaction
+Simple form to add income or expense with category selection.
+
+## 🐛 Troubleshooting
+
+### "Firebase Admin initialization failed"
+- Make sure `serviceAccountKey.json` is in `server/src/config/`
+- Verify the file is valid JSON
+- Check the path in `.env` file
+
+### "Unauthorized" errors
+- Ensure you're logged in
+- Check that Firebase Authentication is enabled
+- Verify the token is being sent in the Authorization header
+
+### CORS errors
+- Make sure the backend is running on port 5000
+- Check that CORS is enabled in `server/src/app.js`
+
+### Firestore permission errors
+- Go to Firestore Database → Rules
+- For development, you can use:
+  ```
+  rules_version = '2';
+  service cloud.firestore {
+    match /databases/{database}/documents {
+      match /{document=**} {
+        allow read, write: if request.auth != null;
+      }
+    }
+  }
+  ```
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+---
+
+Built with ❤️ using React, Express.js, and Firebase
