@@ -220,7 +220,7 @@ POST /api/transactions
 - ✅ Environment variables for sensitive data
 - ✅ Service account key excluded from version control
 
-## 📱 Screenshots
+<!-- ## 📱 Screenshots 
 
 ### Login Page
 Clean authentication interface with email/password sign-in.
@@ -274,3 +274,4 @@ Contributions, issues, and feature requests are welcome!
 ---
 
 Built with ❤️ using React, Express.js, and Firebase
+-->
