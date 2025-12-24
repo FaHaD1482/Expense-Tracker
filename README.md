@@ -1,30 +1,32 @@
-# 💰 Personal Finance Tracker
+# Personal Finance Tracker
 
 A full-stack personal finance dashboard built with React, Express.js, and Firebase. Track your income and expenses with beautiful charts and real-time data synchronization.
 
-## 🏗️ Architecture
+## Architecture
 
 This is a **monorepo** project with two main folders:
 
 - **`/client`** - React frontend (Vite + Tailwind CSS)
 - **`/server`** - Express.js backend (Node.js + Firebase Admin)
 
-## ✨ Features
+## Features
 
-- 🔐 **User Authentication** - Email/Password authentication with Firebase
-- 📊 **Visual Dashboard** - Beautiful pie charts showing expense breakdown
-- 💵 **Transaction Management** - Add, view, and delete income/expense transactions
-- 🎨 **Modern UI** - Clean, responsive design with Tailwind CSS
-- 🔥 **Real-time Database** - Cloud Firestore for data persistence
-- 🔒 **Secure API** - Token-based authentication with Firebase Admin SDK
+- **User Authentication** - Email/Password authentication with Firebase
+- **Visual Dashboard** - Beautiful pie charts showing expense breakdown
+- **Transaction Management** - Add, view, and delete income/expense transactions
+- **Modern UI** - Clean, responsive design with Tailwind CSS
+- **Real-time Database** - Cloud Firestore for data persistence
+- **Secure API** - Token-based authentication with Firebase Admin SDK
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - Node.js (v16 or higher)
 - npm or yarn
 - A Firebase project (see setup below)
+
+### Project Setup Guide
 
 ### Firebase Setup
 
@@ -34,15 +36,8 @@ Before running the application, you need to set up Firebase:
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
 2. Click "Add project" and follow the setup wizard
-3. Enable **Firestore Database**:
-   - Go to "Firestore Database" in the left menu
-   - Click "Create database"
-   - Start in **production mode** or **test mode**
-   - Choose a location close to you
-4. Enable **Authentication**:
-   - Go to "Authentication" in the left menu
-   - Click "Get started"
-   - Enable "Email/Password" sign-in method
+3. Enable **Firestore Database**
+4. Enable **Authentication**
 
 #### 2. Get Firebase Configuration for Frontend
 
@@ -121,60 +116,56 @@ npm run dev
 
 The client will start on `http://localhost:3000`
 
-## 🌐 Deployment
+## Deployment
 
 Ready to deploy your app? Check out the comprehensive deployment guide:
 
-📖 **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Step-by-step guide for deploying to:
+**[DEPLOYMENT.md](./DEPLOYMENT.md)** - Step-by-step guide for deploying to:
 - **Vercel** (Frontend) - Free tier with excellent performance
 - **Render** (Backend) - Free tier with always-on capability
 
 Both platforms offer free hosting and will keep your app running 24/7!
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Expense Tracker/
-├── client/                          # Frontend React App
+├── client/                          
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── firebaseConfig.js    # 🔥 Firebase Web SDK config (uses env vars)
+│   │   │   └── firebaseConfig.js    
 │   │   ├── pages/
-│   │   │   ├── Login.jsx            # Login/Signup page
-│   │   │   ├── Dashboard.jsx        # Main dashboard
-│   │   │   └── AddTransaction.jsx   # Add transaction form
+│   │   │   ├── Login.jsx            
+│   │   │   ├── Dashboard.jsx       
+│   │   │   └── AddTransaction.jsx  
 │   │   ├── services/
-│   │   │   └── api.js               # API service layer
-│   │   ├── App.jsx                  # Main app with routing
-│   │   ├── main.jsx                 # Entry point
-│   │   └── index.css                # Global styles
-│   ├── .env                         # 🔒 Environment variables (not committed)
-│   ├── .env.example                 # Template for environment variables
+│   │   │   └── api.js           
+│   │   ├── App.jsx                  
+│   │   ├── main.jsx       
+│   │   └── index.css        
+│   ├── .env                        
+│   ├── .env.example                 
 │   ├── package.json
 │   ├── tailwind.config.js
-│   └── vercel.json                  # Vercel deployment config
+│   └── vercel.json                  
 │
-├── server/                          # Backend Express API
+├── server/                         
 │   ├── src/
 │   │   ├── config/
-│   │   │   ├── firebaseConfig.js    # Firebase Admin SDK config
-│   │   │   └── serviceAccountKey.json  # 🔥 Service account (DO NOT COMMIT)
+│   │   │   ├── firebaseConfig.js    
+│   │   │   └── serviceAccountKey.json  
 │   │   ├── middleware/
-│   │   │   └── authMiddleware.js    # Token verification
+│   │   │   └── authMiddleware.js    
 │   │   ├── routes/
-│   │   │   └── transactions.js      # Transaction endpoints
-│   │   └── app.js                   # Express server
+│   │   │   └── transactions.js      
+│   │   └── app.js                   
 │   ├── package.json
-│   └── .env                         # 🔒 Environment variables (not committed)
+│   └── .env                         
 │
-├── render.yaml                      # Render deployment config
-├── DEPLOYMENT.md                    # 📖 Deployment guide
+├── render.yaml                     
+├── DEPLOYMENT.md                   
 └── README.md
 ```
-
-## 🔌 API Endpoints
-
-All endpoints require authentication via `Authorization: Bearer <token>` header.
 
 ### Transactions
 
@@ -213,7 +204,7 @@ POST /api/transactions
 }
 ```
 
-## 🎨 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 19** - UI library
@@ -231,66 +222,10 @@ POST /api/transactions
 - **CORS** - Cross-origin resource sharing
 - **dotenv** - Environment variables
 
-## 🔒 Security Features
+## Security Features
 
 - ✅ Firebase Authentication with secure token verification
 - ✅ Protected API routes with middleware
 - ✅ User-specific data isolation (users can only access their own transactions)
 - ✅ Environment variables for sensitive data
 - ✅ Service account key excluded from version control
-
-<!-- ## 📱 Screenshots
-
-### Login Page
-Clean authentication interface with email/password sign-in.
-
-### Dashboard
-- Total balance, income, and expense cards
-- Interactive pie chart showing expense breakdown by category
-- Recent transactions list with delete functionality
-
-### Add Transaction
-Simple form to add income or expense with category selection.
-
-## 🐛 Troubleshooting
-
-### "Firebase Admin initialization failed"
-- Make sure `serviceAccountKey.json` is in `server/src/config/`
-- Verify the file is valid JSON
-- Check the path in `.env` file
-
-### "Unauthorized" errors
-- Ensure you're logged in
-- Check that Firebase Authentication is enabled
-- Verify the token is being sent in the Authorization header
-
-### CORS errors
-- Make sure the backend is running on port 5000
-- Check that CORS is enabled in `server/src/app.js`
-
-### Firestore permission errors
-- Go to Firestore Database → Rules
-- For development, you can use:
-  ```
-  rules_version = '2';
-  service cloud.firestore {
-    match /databases/{database}/documents {
-      match /{document=**} {
-        allow read, write: if request.auth != null;
-      }
-    }
-  }
-  ```
-
-## 📝 License
-
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
----
-
-Built with ❤️ using React, Express.js, and Firebase
--->
