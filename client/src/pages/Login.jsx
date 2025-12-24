@@ -38,10 +38,10 @@ function Login() {
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                        💰 Finance Tracker
+                        Finance Tracker
                     </h1>
                     <p className="text-gray-600">
-                        {isLogin ? 'Welcome back!' : 'Create your account'}
+                        {isLogin ? 'Welcome to Personal Finance Tracker' : 'Create your account'}
                     </p>
                 </div>
 
@@ -55,7 +55,7 @@ function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                            placeholder="you@example.com"
+                            placeholder="yourmail@mail.com"
                             required
                         />
                     </div>

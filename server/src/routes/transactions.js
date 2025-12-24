@@ -15,7 +15,6 @@ router.get('/', verifyToken, async (req, res) => {
         const transactionsRef = db.collection('transactions');
         const snapshot = await transactionsRef
             .where('userId', '==', uid)
-            .orderBy('createdAt', 'desc')
             .get();
 
         const transactions = [];
@@ -24,6 +23,11 @@ router.get('/', verifyToken, async (req, res) => {
                 id: doc.id,
                 ...doc.data()
             });
+        });
+
+        // Sort by createdAt in JavaScript instead of Firestore
+        transactions.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
         res.json({ success: true, transactions });

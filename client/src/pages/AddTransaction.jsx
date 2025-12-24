@@ -54,7 +54,7 @@ function AddTransaction() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-8 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-white-100 via-blue-50 to-blue-100 py-8 px-4">
             <div className="max-w-2xl mx-auto">
                 <div className="mb-6">
                     <button
@@ -79,21 +79,21 @@ function AddTransaction() {
                                     type="button"
                                     onClick={() => setFormData(prev => ({ ...prev, type: 'income' }))}
                                     className={`py-3 px-6 rounded-lg font-semibold transition ${formData.type === 'income'
-                                            ? 'bg-green-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-green-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
-                                    💰 Income
+                                    Income
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setFormData(prev => ({ ...prev, type: 'expense' }))}
                                     className={`py-3 px-6 rounded-lg font-semibold transition ${formData.type === 'expense'
-                                            ? 'bg-red-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-red-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
-                                    💸 Expense
+                                    Expense
                                 </button>
                             </div>
                         </div>

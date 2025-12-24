@@ -2,16 +2,15 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// Firebase configuration
-// Replace these values with your Firebase project configuration
+// Firebase configuration from environment variables
 const firebaseConfig = {
-    apiKey: "AIzaSyAkG7nSB7wkMFKPWSMX0WsAupX0B6mzTlg",
-    authDomain: "expense-tracker-692d1.firebaseapp.com",
-    projectId: "expense-tracker-692d1",
-    storageBucket: "expense-tracker-692d1.firebasestorage.app",
-    messagingSenderId: "926628737720",
-    appId: "1:926628737720:web:980479651650feecc57a4d",
-    measurementId: "G-B95LV210GJ"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

@@ -50,24 +50,27 @@ Before running the application, you need to set up Firebase:
 2. Scroll down to "Your apps" section
 3. Click the **Web** icon (`</>`) to add a web app
 4. Register your app with a nickname (e.g., "Finance Tracker Web")
-5. Copy the `firebaseConfig` object
+5. Copy the `firebaseConfig` object values
 
-**Paste the configuration in:**
-```
-client/src/config/firebaseConfig.js
+**Create a `.env` file in the `client` folder:**
+```bash
+cd client
+cp .env.example .env
 ```
 
-Replace the placeholder values:
-```javascript
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+**Edit `client/.env` and add your Firebase configuration:**
+```env
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+VITE_API_BASE_URL=http://127.0.0.1:5000/api
 ```
+
+⚠️ **IMPORTANT:** The `.env` file is already in `.gitignore` and will not be committed to version control.
 
 #### 3. Get Firebase Admin SDK for Backend
 
@@ -79,19 +82,20 @@ const firebaseConfig = {
 
 ⚠️ **IMPORTANT:** Never commit this file to version control! It's already in `.gitignore`.
 
-#### 4. Set Up Environment Variables
+#### 4. Set Up Server Environment Variables
 
-1. Copy the example file:
-   ```bash
-   cd server
-   cp .env.example .env
-   ```
+The server already has a `.env` file configured. If needed, you can modify:
 
-2. The `.env` file should contain:
-   ```
-   PORT=5000
-   FIREBASE_SERVICE_ACCOUNT_PATH=./src/config/serviceAccountKey.json
-   ```
+```bash
+cd server
+# Edit .env file
+```
+
+Default configuration:
+```env
+PORT=5000
+FIREBASE_SERVICE_ACCOUNT_PATH=./src/config/serviceAccountKey.json
+```
 
 ### Installation
 
@@ -117,6 +121,16 @@ npm run dev
 
 The client will start on `http://localhost:3000`
 
+## 🌐 Deployment
+
+Ready to deploy your app? Check out the comprehensive deployment guide:
+
+📖 **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Step-by-step guide for deploying to:
+- **Vercel** (Frontend) - Free tier with excellent performance
+- **Render** (Backend) - Free tier with always-on capability
+
+Both platforms offer free hosting and will keep your app running 24/7!
+
 ## 📁 Project Structure
 
 ```
@@ -124,7 +138,7 @@ Expense Tracker/
 ├── client/                          # Frontend React App
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── firebaseConfig.js    # 🔥 Firebase Web SDK config
+│   │   │   └── firebaseConfig.js    # 🔥 Firebase Web SDK config (uses env vars)
 │   │   ├── pages/
 │   │   │   ├── Login.jsx            # Login/Signup page
 │   │   │   ├── Dashboard.jsx        # Main dashboard
@@ -134,8 +148,11 @@ Expense Tracker/
 │   │   ├── App.jsx                  # Main app with routing
 │   │   ├── main.jsx                 # Entry point
 │   │   └── index.css                # Global styles
+│   ├── .env                         # 🔒 Environment variables (not committed)
+│   ├── .env.example                 # Template for environment variables
 │   ├── package.json
-│   └── tailwind.config.js
+│   ├── tailwind.config.js
+│   └── vercel.json                  # Vercel deployment config
 │
 ├── server/                          # Backend Express API
 │   ├── src/
@@ -148,8 +165,10 @@ Expense Tracker/
 │   │   │   └── transactions.js      # Transaction endpoints
 │   │   └── app.js                   # Express server
 │   ├── package.json
-│   └── .env                         # Environment variables
+│   └── .env                         # 🔒 Environment variables (not committed)
 │
+├── render.yaml                      # Render deployment config
+├── DEPLOYMENT.md                    # 📖 Deployment guide
 └── README.md
 ```
 
@@ -220,7 +239,7 @@ POST /api/transactions
 - ✅ Environment variables for sensitive data
 - ✅ Service account key excluded from version control
 
-<!-- ## 📱 Screenshots 
+<!-- ## 📱 Screenshots
 
 ### Login Page
 Clean authentication interface with email/password sign-in.

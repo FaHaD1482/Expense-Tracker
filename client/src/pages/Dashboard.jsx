@@ -76,14 +76,14 @@ function Dashboard() {
         value
     }));
 
-    const COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#6366f1'];
+    const COLORS = ['#ff7f0fff', '#8b5cf6', '#f82424ff', '#f59e0b', '#10b981', '#d53df7ff'];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-8 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-white-100 via-blue-50 to-blue-100 py-8 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-4xl font-bold text-gray-800">💰 Dashboard</h1>
+                    <h1 className="text-4xl font-bold text-gray-800">Dashboard</h1>
                     <div className="flex gap-3">
                         <button
                             onClick={() => navigate('/add')}
