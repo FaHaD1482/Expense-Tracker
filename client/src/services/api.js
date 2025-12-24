@@ -11,10 +11,27 @@ const api = axios.create({
     },
 });
 
+// Helper to get current user with potential wait for auth initialization
+const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            unsubscribe();
+            resolve(user);
+        }, reject);
+    });
+};
+
 // Add token to requests automatically
 api.interceptors.request.use(
     async (config) => {
-        const user = auth.currentUser;
+        // First try immediate access
+        let user = auth.currentUser;
+
+        // If null, wait for auth to initialize (common on page load)
+        if (!user) {
+            user = await getCurrentUser();
+        }
+
         if (user) {
             const token = await user.getIdToken();
             config.headers.Authorization = `Bearer ${token}`;

@@ -12,7 +12,13 @@ function Dashboard() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchTransactions();
+        // Only fetch when user is available or auth has initialized
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                fetchTransactions();
+            }
+        });
+        return () => unsubscribe();
     }, []);
 
     const fetchTransactions = async () => {
