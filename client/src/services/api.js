@@ -1,9 +1,14 @@
 import axios from 'axios';
 import { auth } from '../config/firebaseConfig';
 
-// Ensure the base URL ends with a slash and the requests don't start with a slash 
-// to avoid axios resolving to the domain root.
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000/api').replace(/\/$/, '') + '/';
+// Ensure the base URL ends with a slash and includes /api if forgotten
+let rawBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000/api';
+if (!rawBaseUrl.includes('/api')) {
+    rawBaseUrl = rawBaseUrl.replace(/\/$/, '') + '/api';
+}
+const API_BASE_URL = rawBaseUrl.replace(/\/$/, '') + '/';
+
+console.log('[API] Using Base URL:', API_BASE_URL);
 
 // Create axios instance
 const api = axios.create({
@@ -15,30 +20,44 @@ const api = axios.create({
     },
 });
 
-// Helper to get current user with potential wait for auth initialization
-const getCurrentUser = () => {
-    return new Promise((resolve, reject) => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+// Helper to get token with direct listener to avoid race conditions
+const getValidToken = () => {
+    return new Promise((resolve) => {
+        // Check immediate first
+        if (auth.currentUser) {
+            auth.currentUser.getIdToken(true).then(resolve).catch(() => resolve(null));
+            return;
+        }
+
+        // Wait for state change if null
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
             unsubscribe();
-            resolve(user);
-        }, reject);
+            if (user) {
+                const token = await user.getIdToken(true);
+                resolve(token);
+            } else {
+                resolve(null);
+            }
+        });
+
+        // Set a timeout so we don't hang forever
+        setTimeout(() => {
+            unsubscribe();
+            resolve(null);
+        }, 5000);
     });
 };
 
 // Add token to requests automatically
 api.interceptors.request.use(
     async (config) => {
-        // First try immediate access
-        let user = auth.currentUser;
+        const token = await getValidToken();
 
-        // If null, wait for auth to initialize (common on page load)
-        if (!user) {
-            user = await getCurrentUser();
-        }
-
-        if (user) {
-            const token = await user.getIdToken();
+        if (token) {
             config.headers.Authorization = `Bearer ${token}`;
+            // Optional: console.log(`[API] Token attached to ${config.url}`);
+        } else {
+            console.warn(`[API] Request to ${config.url} sent without token (user not authenticated)`);
         }
         return config;
     },

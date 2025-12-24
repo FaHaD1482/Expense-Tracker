@@ -28,10 +28,11 @@ export const verifyToken = async (req, res, next) => {
 
         next();
     } catch (error) {
-        console.error('Token verification error:', error.message);
+        console.error('❌ Token verification error:', error.code, error.message);
         return res.status(401).json({
             error: 'Unauthorized',
-            message: 'Invalid or expired token'
+            message: error.code === 'auth/id-token-expired' ? 'Token expired' : 'Invalid token',
+            debug: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };
